@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web App</title>
+</head>
+<body>
+    <h1>Country info</h1>
+
+    <form action="/country_info" method="POST">
+        <label for="country_name">Country Name:</label>
+        <input type="text" id="country_name" name="country_name" value="{{country_name}}" required>
+        <input type="submit" value="Submit">
+    </form>
+
+    {% if country_iso %}
+        <h3>ISO code for {{ country_name }}: {{ country_iso }}</h3>
+    {% endif %}
+
+    {% if capital %}
+        <h3>Capital city: {{ capital }}</h3>
+    {% endif %}
+
+    {% if flag %}
+        <h3>Country flag:</h3>
+        <img src="{{ flag }}" alt="Flag of {{ country_name }}" width="150px">
+    {% endif %}
+
+    {% if country_iso %}
+        <h2>Convert local currency to USD</h2>
+        <form action="/country_info" method="POST">
+            <input type="hidden" name="country_name" value="{{ country_name }}">
+            <input type="hidden" name="country_iso" value="{{ country_iso }}">
+            <input type="hidden" name="capital" value="{{ capital }}">
+            <input type="hidden" name="flag" value="{{ flag }}">
+            <input type="hidden" name="currency_iso_code" value="{{ currency_iso_code }}">
+
+            <label for="amount_currency">Amount ({{ currency_iso_code }}):</label>
+            <input type="number" id="amount_currency" name="amount_currency" step="1" value="{{amount_currency}}" required>
+            <input type="submit" value="Convert">
+        </form>
+    {% endif %}
+
+    {% if amount_currency %}
+        <h3>Currency Conversion</h3>
+        <p>{{ amount_currency }} {{ currency_iso_code }} is equal to {{ amount_in_usd }} USD.</p>
+    {% endif %}
+
+    {% if error %}
+        <h3 style="color: red;">Error: {{ error }}</h3>
+    {% endif %}
+
+</body>
+</html>
